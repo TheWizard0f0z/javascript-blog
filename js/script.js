@@ -43,6 +43,7 @@ const titleClickHandler = function (event) {
 };
 
 const links = document.querySelectorAll('.titles a');
+console.log(links);
 
 for (let link of links) {
     link.addEventListener('click', titleClickHandler);
@@ -61,10 +62,12 @@ function generateTitleLinks() {
     /* for each article */
     const articles = document.querySelectorAll(optArticleSelector);
 
+    let html = '';
+
     for (let article of articles) {
 
         /* get the article id */
-        const articleId = clickedElement.getAttribute('id');
+        const articleId = article.getAttribute('id');
         console.log(articleId);
 
         /* find the title element */
@@ -73,7 +76,16 @@ function generateTitleLinks() {
         console.log(articleTitle);
 
         /* create HTML of the link */
+        const linkHTML = '<li><a href="#' + articleId + '"><span>' + articleTitle + '</span></a></li>';
+        console.log(linkHTML);
+
         /* insert link into titleList */
+        html = html + linkHTML;
+
+        console.log(html)
     }
+
+    titleList.innerHTML = html;
 }
+
 generateTitleLinks();
