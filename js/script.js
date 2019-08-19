@@ -231,26 +231,38 @@ function addClickListenersToTags() {
 
 addClickListenersToTags();
 
-function calculateAuthorsClass(authors) {
+function calculateAuthorsParams(authors) {
   const keys = { max: 0, min: 999999 };
 
   const params = keys;
 
   for (let author in authors) {
-    console.log(author + ' in used ' + authors[author] + ' times ');
+    /*console.log(author + ' in used ' + authors[author] + ' times ');*/
     if (authors[author] > params.max) {
       params.max = authors[author];
     }
   }
 
   for (let author in authors) {
-    console.log(author + ' in used ' + authors[author] + ' times ');
+    /*console.log(author + ' in used ' + authors[author] + ' times ');*/
     if (authors[author] < params.min) {
       params.min = authors[author];
     }
   }
 
   return params;
+}
+
+function calculateAuthorClass(count, params) {
+  const normalizedCount = count - params.min;
+
+  const normalizedMax = params.max - params.min;
+
+  const percentage = normalizedCount / normalizedMax;
+
+  const classNumber = Math.floor(percentage * (optCloudClassCount - 1) + 1);
+
+  return optCloudClassPrefix + classNumber;
 }
 
 function generateAuthors() {
@@ -294,7 +306,7 @@ function generateAuthors() {
   /* [NEW] find list of authors in right column */
   const authorList = document.querySelector('.authors');
 
-  const authorsParams = calculateAuthorsClass(allAuthors);
+  const authorsParams = calculateAuthorsParams(allAuthors);
   console.log('authorsParams:', authorsParams);
 
   /* [NEW] create variable for all links HTML code */
@@ -303,8 +315,11 @@ function generateAuthors() {
   /* [NEW] START LOOP: for each author in allAuthors: */
   for (let author in allAuthors) {
     /* [NEW] generate code of a link and add it to allAuthorsHTML */
-    allAuthorsHTML += '<li><a href="#author-' + author + '">' + author + ' (' + allAuthors[author] + ') ' + '</a></li>';
+    const authorLinkHTML = '<li><a class="' + calculateAuthorClass(allAuthors[author], authorsParams) + '" href="#author-' + author + '">' + author + '</a></li>';
+
+    allAuthorsHTML += authorLinkHTML;
   }
+
   /* [NEW] END LOOP: for each author in allAuthors: */
 
   /* [NEW] add html from allAuthorsHTML to authorList */

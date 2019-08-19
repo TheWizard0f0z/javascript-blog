@@ -135,4 +135,9 @@ body {
 .tag-size-5 {
   font-size: 180%;
 }
+
+/* Authors */
+.sidebar .authors li {
+  display: inline-block;
+}
 /*# sourceMappingURL=style.css.map */
