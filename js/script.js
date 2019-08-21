@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 'use strict';
 
 const templates = {
@@ -353,6 +354,19 @@ function authorClickHandler(event) {
 
   /* [DONE] make a new constant "author" and extract author from the "href" constant */
   const author = href.replace('#author-', '');
+
+  //NEW CODE
+  const activeAuthorLinks = document.querySelectorAll('a.active[href^="#author-"]');
+
+  for (let activeAuthorLink of activeAuthorLinks) {
+    activeAuthorLink.classList.remove('active');
+  }
+
+  const authorLinks = document.querySelectorAll('a[href="' + href + '"]');
+
+  for (let authorLink of authorLinks) {
+    authorLink.classList.add('active');
+  }
 
   /* [DONE] execute function "generateTitleLinks" with article selector as argument */
   generateTitleLinks('[data-author="' + author + '"]');
